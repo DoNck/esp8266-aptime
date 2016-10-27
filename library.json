@@ -1,0 +1,18 @@
+{
+    "name": "APtime",
+    "description": "ESP8266 clock synchronization library using 802.11 AP beacons.",
+    "keywords": "ESP8266 clock synchronization 802.11 WiFi beacons",
+    "authors":
+    {"name": "DoNcK"},
+    "repository":
+    {
+        "type": "git",
+        "url": "https://github.com/DoNck/esp8266-aptime"
+    },
+    "version": "1.0.0",
+    "license": "MIT",
+    "platforms": "espressif8266",
+    "examples": [
+        "examples/*/*.ino"
+    ]
+}
