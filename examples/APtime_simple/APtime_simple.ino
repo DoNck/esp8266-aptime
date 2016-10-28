@@ -13,7 +13,6 @@ void setup() {
   config.ssid = WIFI_SSID;   //The SSID of the AP you want to sync your clock to
   config.favoriteChannel = 1;  //Starts sniffing on this channel (for quicker init)
   config.tryAllChannels = true; //Set to false if you do not want to try other channels
-  config.linearSlope = 1.0;     //AP clock drift correction relative to local clock
 
   aptime.setConfig(config);
   aptime.synchronize();

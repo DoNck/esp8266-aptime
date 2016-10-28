@@ -86,6 +86,8 @@ struct Config {
     int favoriteChannel;
     boolean tryAllChannels;
     float linearSlope;
+    //
+    APtime_Config() : favoriteChannel(1), tryAllChannels(true), linearSlope(1.0) {}
 };
 
 class APtime
