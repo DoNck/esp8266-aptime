@@ -81,9 +81,9 @@ Relative error = (Delta_tLocal-Delta_tAP)/(Delta_tAP) ~= -1,17358883465638E-05
 This turns visible with the simple led blinking example if you power a second
 board a few hours after the first one.
 
-**Clock drift compensation feature is still in development !**
-To avoid inaccuracy, please instead call synchronizedForced() as frequently as you
-need to force resynchronization.
+To avoid inaccuracy, you have two options:
+* use config.linearSlope and set the proper value for your AP/board pair (provided by running the "APtime\_sample\_drift" example).
+* call synchronizedForced() as frequently as you need to force resynchronization periodically
 
  
 

@@ -284,7 +284,7 @@ void APtime::try_sync_from_beacon(beaconinfo beacon, unsigned long internalTs)
       if (_config.linearSlope == 1.0) {
         _linearYIntercept = _lastApTs - _lastInternalTs;
       } else {
-        //TODO handle drift
+        _linearYIntercept = _lastApTs - _config.linearSlope*_lastInternalTs;
       }
 
       /*
