@@ -61,8 +61,8 @@ timestamp to avoid frequent overflow and the synchronization is not actually
 that accurate. I did not conduct any serious experiment yet, but **I believe the
 accuracy to be close to 50ms right after synchronization**.
 
-Moreover, **accuracy **will slowly degrade after synchronization because of**
-relative clocks drifts** between local timebases and AP timebase. Give a try to
+Moreover, **accuracy** will slowly degrade after synchronization because of
+**relative clocks drifts** between local timebases and AP timebase. Give a try to
 the "APtime\_sample\_drift" example if you want measurements for your AP and
 boards.
 
@@ -81,9 +81,9 @@ Relative error = (Delta_tLocal-Delta_tAP)/(Delta_tAP) ~= -1,17358883465638E-05
 This turns visible with the simple led blinking example if you power a second
 board a few hours after the first one.
 
-**Clock drift compensation feature is still in development ! **To avoid
-inaccuracy, please instead call synchronizedForced() as frequently as you need
-to force resynchronization.
+**Clock drift compensation feature is still in development !**
+To avoid inaccuracy, please instead call synchronizedForced() as frequently as you
+need to force resynchronization.
 
  
 
