@@ -59,6 +59,8 @@ void APtime::setConfig(Config config)
 */
 unsigned long APtime::synchronize()
 {
+  uint8 wifi_opmode = wifi_get_opmode ();
+  
   uint8_t _channel = _config.favoriteChannel; //Channel to sniff
 
   if (_linearYIntercept == 0) { //we skip running this if the clock is already synchronized
@@ -101,6 +103,8 @@ unsigned long APtime::synchronize()
   wifi_promiscuous_enable(1);
   wifi_promiscuous_enable(0);
 
+  wifi_set_opmode(wifi_opmode); //restore wifi_opmode
+  
   return 0; //TODO
 }
 
@@ -135,7 +139,7 @@ double APtime::sampleLinearSlope(unsigned long deltaMillis)
   tAP2 = _lastApTs;
   tLocal2 = _lastInternalTs;
 
-  Serial.printf("\n[APtime] Sampled: tLocal1=%d, tLocal2=%d, tAP1=%d, tAP2=%d", tLocal1, tLocal2, tAP1, tAP2);
+  Serial.printf("\n[APtime] Sampled: tLocal1 = %d ms, tLocal2 = %d ms, tAP1 = %d ms, tAP2 = %d ms", tLocal1, tLocal2, tAP1, tAP2);
 
   slope = (tLocal2 - tLocal1) / (1.0 * (tAP2 - tAP1));
 
