@@ -68,15 +68,16 @@ boards.
 
 Here are my results after running the experiment for approximately **12 hours**:
 
-$$Sampled: tLocal1 = 825 ms, tLocal2=43201138 ms, tAP1=31304806 ms,
-tAP2=74505626 ms$$
+```
+Sampled: tLocal1 = 825 ms, tLocal2=43201138 ms, tAP1=31304806 ms,
+tAP2=74505626 ms
 
-$$Linear Slope = (tLocal2-tLocal1)/(tAP2-tAP1) ~= 0.9999882641$$
+Linear Slope = (tLocal2-tLocal1)/(tAP2-tAP1) ~= 0.9999882641
 
-$$Absolute error = Delta_tLocal-Delta_tAP = -507 ms$$
+Absolute error = Delta_tLocal-Delta_tAP = -507 ms
 
-$$Relative error = (Delta_tLocal-Delta_tAP)/(Delta_tAP) ~=
--1,17358883465638E-05$$
+Relative error = (Delta_tLocal-Delta_tAP)/(Delta_tAP) ~= -1,17358883465638E-05
+```
 
 This turns visible with the simple led blinking example if you power a second
 board a few hours after the first one.
