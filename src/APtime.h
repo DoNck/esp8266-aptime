@@ -81,29 +81,50 @@ struct sniffer_buf2 {
   uint16_t len;
 };
 
+/**
+* autoUpdatePeriod is in milliseconds.
+* set it to -1 to disable auto-update feature.
+* default: 600000ms (10 minutes)
+*/
 struct Config {
     String ssid;
     int favoriteChannel;
     boolean tryAllChannels;
     float linearSlope;
+    unsigned long autoUpdatePeriod;
     //
-    Config() : favoriteChannel(1), tryAllChannels(true), linearSlope(1.0) {}
+    Config() : favoriteChannel(1), tryAllChannels(true), linearSlope(1.0), autoUpdatePeriod(600000) {}
+};
+
+enum Aptime_status {
+  APTIME_INIT,           //clock is nor ready nor being prepared
+  APTIME_SYNCHRONIZING,  //clock is not ready but being prepared (for 1st synchronization)
+  APTIME_SYNCHRONIZED,   //clock is usable
+  APTIME_RESYNCHRONIZING //clock is usable but will be updated ASAP (last clock sync is too old)
 };
 
 class APtime
 {
   private:
-  
+
+    Aptime_status _status;
+
     //fields config
     Config _config;
-    
+
     //fields (clock):
     unsigned long _lastInternalTs; // = millis(), milliseconds
     unsigned long _lastApTs; //milliseconds
 
     unsigned long _linearYIntercept = 0;
-    
-    //fields(radio):
+
+    //wifi settings backup
+    uint8 bkp_wifi_opmode;
+    uint8 bkp_wifi_channel;
+
+    //fields(sniffing):
+    unsigned long begints;
+    uint8_t _channel;
     beaconinfo _aps_known[MAX_APS_TRACKED]; // Array to save MACs of known APs
     int _aps_known_count;                   // Number of known APs
     int _nothing_new;
@@ -112,25 +133,35 @@ class APtime
     struct beaconinfo parse_beacon(uint8_t *frame, uint16_t framelen, signed rssi);
     int register_beacon(beaconinfo beacon);
     void print_beacon(beaconinfo beacon);
-    void try_sync_from_beacon(beaconinfo beacon, unsigned long internalTs);    
+    void try_sync_from_beacon(beaconinfo beacon, unsigned long internalTs);
     void longLongPrint(long long v);
-    
+
+    void backupWiFiSetting();
+    void restoreWiFiSetting();
+    void start_sniffing();
+    void stop_sniffing();
+    void manageChannels();
+
   public:
     APtime();
     //~APtime();
 
     static APtime* pInstance; //singleton
-    
+
     //methods
-  void setConfig(Config config);
+    Aptime_status getStatus();
+    void setConfig(Config config);
     //to match Arduino library style:
+    void blockingSync();
     unsigned long synchronize();
-    unsigned long synchronizeForced();
+    bool isLastSyncTooOld();
+    void asyncSync();
+
     /**
      * We model local time as being a linear function of AP time and try to find the slope coefficient
      */
     double sampleLinearSlope(unsigned long deltaMillis);
-    //    
+    //
     /**
     * Returns milliseconds (32 bits) synced on Access Point beacons (64 bits microseconds).
     * It might be the milliseconds since the Acess Point has been running but that is not specified as mandatory by the 802.11 standard.
@@ -143,4 +174,3 @@ class APtime
 };
 
 #endif
-

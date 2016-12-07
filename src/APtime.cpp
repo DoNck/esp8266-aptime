@@ -40,79 +40,133 @@ void APtime::promisc_cb(uint8_t *buf, uint16_t len)
 
 APtime::APtime()
 {
+  _status = APTIME_INIT;
   pInstance = this; //sniffing callback requires a static function and does NOT accept class methods, so we will use a static callback and this singleton
   //
   _lastInternalTs = 0;  // = millis()
   _lastApTs;            //milliseconds
   _aps_known_count = 0; // Number of known APs
   _nothing_new = 0;
+
+}
+
+Aptime_status APtime::getStatus()
+{
+  return _status;
 }
 
 
 void APtime::setConfig(Config config)
 {
   _config = config;
+  _channel = _config.favoriteChannel; //Channel to sniff
+}
+
+bool APtime::isLastSyncTooOld() {
+  return (
+    (_status == APTIME_INIT)
+    || (_status == APTIME_SYNCHRONIZING)
+    || ((millis() - _lastInternalTs) > _config.autoUpdatePeriod)
+  );
 }
 
 /**
-   returns: absolute local clock error since last update (ms)
+  blocking call to get clock (re)synced
 */
-unsigned long APtime::synchronize()
+void APtime::blockingSync(){
+  do {
+    asyncSync();
+  } while (_status != APTIME_SYNCHRONIZED );
+}
+
+/**
+  non-blocking call to get clock (re)synced ASAP
+  call it until
+  WARNING: This one does not take care of prior disconnection and re-connecting
+*/
+void APtime::asyncSync()
 {
-  uint8 wifi_opmode = wifi_get_opmode ();
-  
-  uint8_t _channel = _config.favoriteChannel; //Channel to sniff
+  //update status if it is necessary to start (re)sync
+  if (isLastSyncTooOld()) {
 
-  if (_linearYIntercept == 0) { //we skip running this if the clock is already synchronized
-
-    unsigned long begints = millis();
-
-    Serial.printf("\n[APtime] Trying to get time synced with AP beacons of \"%s\" on _channel %d ...", _config.ssid.c_str(), _channel);
-
-    // Promiscuous works only with station mode
-    wifi_set_opmode(STATION_MODE);
-
-    // Set up promiscuous callback
-    wifi_set_channel(_channel);
-    wifi_promiscuous_enable(0);
-    wifi_set_promiscuous_rx_cb(promisc_cb_wrapper);
-    wifi_promiscuous_enable(1);
-
-    while (_linearYIntercept == 0) {
-      _nothing_new++;
-      if (_nothing_new > 200) {
-        _nothing_new = 0;
-
-        if (_config.tryAllChannels) {
-          _channel = _channel % 15 + 1; //1 to 15 CHECK a quoi servait leur _nothing_new
-        }
-
-        Serial.printf("\n[APtime] switching to _channel %d", _channel);
-        wifi_set_channel(_channel);
-
-      }
-      delay(1);
+    //update status
+    if (_status == APTIME_INIT) {
+      _status = APTIME_SYNCHRONIZING;
+      start_sniffing();
+    } else if (_status == APTIME_SYNCHRONIZED) {
+      _status = APTIME_RESYNCHRONIZING;
+      start_sniffing();
     }
 
-    Serial.printf("\n[APtime] SYNCED ! (%d ms)\n", millis() - begints);
+    //change channel when necessary (this is why we need repeted calls to asyncSync() in the user program)
+    if (_status == APTIME_SYNCHRONIZING || _status == APTIME_RESYNCHRONIZING ) {
+      manageChannels();
+    }
   }
+}
 
-  //unregister promiscuous callback and switch promiscuous mode off
+void APtime::backupWiFiSetting()
+{
+  bkp_wifi_opmode = wifi_get_opmode ();
+  bkp_wifi_channel = wifi_get_channel();
+}
+
+void APtime::restoreWiFiSetting()
+{
+  wifi_set_channel(bkp_wifi_channel);
+  wifi_set_opmode(bkp_wifi_opmode);
+}
+
+
+//to call only ONCE when necessary
+void APtime::start_sniffing() {
+  backupWiFiSetting();
+
+  _aps_known_count = 0;  //reset beacon registration
+  begints = millis();
+  Serial.printf("\n[APtime] Trying to get time synced with AP beacons of \"%s\" on _channel %d ...", _config.ssid.c_str(), _channel);
+
+  // Promiscuous works only with station mode
+  wifi_set_opmode(STATION_MODE);
+  // Set up promiscuous callback
+  wifi_set_channel(_channel);
+  wifi_promiscuous_enable(0);
+  wifi_set_promiscuous_rx_cb(promisc_cb_wrapper);
+  wifi_promiscuous_enable(1);
+}
+
+//to call only ONCE when necessary
+void  APtime::stop_sniffing() {
   wifi_promiscuous_enable(0);
   wifi_set_promiscuous_rx_cb(0);
   wifi_promiscuous_enable(1);
   wifi_promiscuous_enable(0);
 
-  wifi_set_opmode(wifi_opmode); //restore wifi_opmode
-  
-  return 0; //TODO
+  restoreWiFiSetting();
 }
 
-unsigned long APtime::synchronizeForced()
+/**
+  run it at the end of your user loop
+  handles channel changes according to user preferences and radio traffic
+*/
+void APtime::manageChannels()
 {
-  _aps_known_count = 0;  //reset beacon registration
-  _linearYIntercept = 0; //reset clock sync
-  return synchronize();
+  //handle channel changes
+
+  _nothing_new++;
+  if (_nothing_new > 200) {
+    _nothing_new = 0;
+
+    if (_config.tryAllChannels) {
+      _channel = _channel % 15 + 1; //1 to 15 CHECK a quoi servait leur _nothing_new
+    }
+
+    Serial.printf("\n[APtime] switching to _channel %d", _channel);
+    wifi_set_channel(_channel);
+
+  }
+  delay(1);
+
 }
 
 double APtime::sampleLinearSlope(unsigned long deltaMillis)
@@ -124,7 +178,7 @@ double APtime::sampleLinearSlope(unsigned long deltaMillis)
   double slope;
   unsigned long tLocal1, tLocal2, tAP1, tAP2;
 
-  synchronizeForced();
+  synchronize();
   tAP1 = _lastApTs;
   tLocal1 = _lastInternalTs;
 
@@ -134,7 +188,7 @@ double APtime::sampleLinearSlope(unsigned long deltaMillis)
     delay(1);
   }
 
-  synchronizeForced();
+  synchronize();
 
   tAP2 = _lastApTs;
   tLocal2 = _lastInternalTs;
@@ -284,7 +338,7 @@ void APtime::try_sync_from_beacon(beaconinfo beacon, unsigned long internalTs)
       if (_config.linearSlope == 1.0) {
         _linearYIntercept = _lastApTs - _lastInternalTs;
       } else {
-        _linearYIntercept = _lastApTs - _config.linearSlope*_lastInternalTs;
+        _linearYIntercept = _lastApTs - _config.linearSlope * _lastInternalTs;
       }
 
       /*
@@ -294,14 +348,20 @@ void APtime::try_sync_from_beacon(beaconinfo beacon, unsigned long internalTs)
         Serial.printf("_config.linearSlope %d\r\n", _config.linearSlope);
       */
 
+      Serial.printf("\n[APtime] SYNCED ! (%d ms)\n", millis() - begints);
+
+      //unregister promiscuous callback and switch promiscuous mode off
+      _status = APTIME_SYNCHRONIZED;
+      stop_sniffing();
+
     }
   }
 }
 
-void APtime::longLongPrint(long long v){
-    char buffer[100];
-    sprintf(buffer, "%0ld", v/1000000L);
-    Serial.print(buffer);  
-    sprintf(buffer, "%0ld", v%1000000L);
-    Serial.println(buffer);  
+void APtime::longLongPrint(long long v) {
+  char buffer[100];
+  sprintf(buffer, "%0ld", v / 1000000L);
+  Serial.print(buffer);
+  sprintf(buffer, "%0ld", v % 1000000L);
+  Serial.println(buffer);
 }
