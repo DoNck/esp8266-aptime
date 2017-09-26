@@ -6,7 +6,7 @@
   Repository: https://github.com/DoNck/esp8266-aptime
 */
 
-#include <Arduino.h>
+//#include <Arduino.h>
 #include <APtime.h>
 
 APtime* APtime::pInstance = NULL; //singleton initial definition

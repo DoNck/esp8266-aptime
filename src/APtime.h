@@ -9,7 +9,7 @@
 #ifndef APtime_h
 #define APtime_h
 
-#include <Arduino.h>
+//#include <Arduino.h>
 
 ///
 

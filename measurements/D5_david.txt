@@ -1,0 +1,154 @@
+r[18][02][00]lúÿrﬂ[00]å#[02]‚n¿[04]à‡[0C][18]å[0C][1C]ÇÏ[1C]på<éÇﬂ[00]Ï8[02]íﬂ«í‹‰l[1C]p[0C][18][0C]Únn‰[02]ƒ;Únƒí‹‰[0C][1B]é[0C]bÁ$âr[18][02]r[18][02]pÚn‡√‹Ä[0C][1C]‡Ç«¿l[1C]Äåú¿[0C][1C]Ä[0C]b¿[04]n‚„n¿$éé[0C][1F]ê[0C]b¿ƒæ~ÚnÓ[03]ƒ¡åé[00]l`[1B]¸ê[12]‹#Çn¿[04]èr[18][02][0E][02]nréíﬂ;[02]ƒ¿[0C]?å[0C]ú;[18][02][0E]rﬂ€ín¿[04]é‡b«[18]í`[1B]ƒû¿l[1F][1C][02]«[07][12]«√å[1C]r[18][02]¸Çnƒb‡¸
+[APtime] Trying to get time synced with AP beacons of "JEFF-2.4-G" on _channel 1 ...
+[APtime] switching to _channel 2
+[APtime] SYNCED ! (234 ms)
+---------------------
+
+[APtime] Starting sampling linear slope...
+
+[APtime] Trying to get time synced with AP beacons of "JEFF-2.4-G" on _channel 1 ...
+[APtime] switching to _channel 2
+[APtime] SYNCED ! (292 ms)
+
+[APtime] Please wait for 43200000 ms...
+
+[APtime] Trying to get time synced with AP beacons of "JEFF-2.4-G" on _channel 1 ...
+[APtime] switching to _channel 2
+[APtime] SYNCED ! (250 ms)
+
+[APtime] Sampled: tLocal1 = 601 ms, tLocal2 = 43200851 ms, tAP1 = 111593370 ms, tAP2 = 154794086 ms
+[APtime] Computed linear slope: 0.9999892131
+---------------------
+
+[APtime] Starting sampling linear slope...
+
+[APtime] Trying to get time synced with AP beacons of "JEFF-2.4-G" on _channel 1 ...
+[APtime] switching to _channel 2
+[APtime] SYNCED ! (284 ms)
+
+[APtime] Please wait for 43200000 ms...
+
+[APtime] Trying to get time synced with AP beacons of "JEFF-2.4-G" on _channel 1 ...
+[APtime] switching to _channel 2
+[APtime] SYNCED ! (262 ms)
+
+[APtime] Sampled: tLocal1 = 43201158 ms, tLocal2 = 86401419 ms, tAP1 = 154794394 ms, tAP2 = 197995110 ms
+[APtime] Computed linear slope: 0.9999894678
+---------------------
+
+[APtime] Starting sampling linear slope...
+
+[APtime] Trying to get time synced with AP beacons of "JEFF-2.4-G" on _channel 1 ...
+[APtime] switching to _channel 2
+[APtime] SYNCED ! (284 ms)
+
+[APtime] Please wait for 43200000 ms...
+
+[APtime] Trying to get time synced with AP beacons of "JEFF-2.4-G" on _channel 1 ...
+[APtime] SYNCED ! (56 ms)
+
+[APtime] Sampled: tLocal1 = 86401727 ms, tLocal2 = 129601783 ms, tAP1 = 197995418 ms, tAP2 = 241195930 ms
+[APtime] Computed linear slope: 0.9999894446
+---------------------
+
+[APtime] Starting sampling linear slope...
+
+[APtime] Trying to get time synced with AP beacons of "JEFF-2.4-G" on _channel 1 ...
+[APtime] SYNCED ! (79 ms)
+
+[APtime] Please wait for 43200000 ms...
+
+[APtime] Trying to get time synced with AP beacons of "JEFF-2.4-G" on _channel 1 ...
+[APtime] switching to _channel 2
+[APtime] SYNCED ! (262 ms)
+
+[APtime] Sampled: tLocal1 = 129601885 ms, tLocal2 = 172802147 ms, tAP1 = 241196032 ms, tAP2 = 284396749 ms
+[APtime] Computed linear slope: 0.9999894678
+---------------------
+
+[APtime] Starting sampling linear slope...
+
+[APtime] Trying to get time synced with AP beacons of "JEFF-2.4-G" on _channel 1 ...
+[APtime] switching to _channel 2
+[APtime] SYNCED ! (283 ms)
+
+[APtime] Please wait for 43200000 ms...
+
+[APtime] Trying to get time synced with AP beacons of "JEFF-2.4-G" on _channel 1 ...
+[APtime] switching to _channel 2
+[APtime] SYNCED ! (259 ms)
+
+[APtime] Sampled: tLocal1 = 172802454 ms, tLocal2 = 216002712 ms, tAP1 = 284397056 ms, tAP2 = 327597773 ms
+[APtime] Computed linear slope: 0.9999893752
+---------------------
+
+[APtime] Starting sampling linear slope...
+
+[APtime] Trying to get time synced with AP beacons of "JEFF-2.4-G" on _channel 1 ...
+[APtime] switching to _channel 2
+[APtime] SYNCED ! (283 ms)
+
+[APtime] Please wait for 43200000 ms...
+
+[APtime] Trying to get time synced with AP beacons of "JEFF-2.4-G" on _channel 1 ...
+[APtime] switching to _channel 2
+[APtime] SYNCED ! (346 ms)
+
+[APtime] Sampled: tLocal1 = 216003019 ms, tLocal2 = 259203364 ms, tAP1 = 327598080 ms, tAP2 = 370798899 ms
+[APtime] Computed linear slope: 0.9999890280
+---------------------
+
+[APtime] Starting sampling linear slope...
+
+[APtime] Trying to get time synced with AP beacons of "JEFF-2.4-G" on _channel 1 ...
+[APtime] switching to _channel 2
+[APtime] SYNCED ! (386 ms)
+
+[APtime] Please wait for 43200000 ms...
+
+[APtime] Trying to get time synced with AP beacons of "JEFF-2.4-G" on _channel 1 ...
+[APtime] switching to _channel 2
+[APtime] SYNCED ! (249 ms)
+
+[APtime] Sampled: tLocal1 = 259203774 ms, tLocal2 = 302404023 ms, tAP1 = 370799309 ms, tAP2 = 414000026 ms
+[APtime] Computed linear slope: 0.9999891668
+---------------------
+
+[APtime] Starting sampling linear slope...
+
+[APtime] Trying to get time synced with AP beacons of "JEFF-2.4-G" on _channel 1 ...
+[APtime] switching to _channel 2
+[APtime] SYNCED ! (284 ms)
+
+[APtime] Please wait for 43200000 ms...
+
+[APtime] Trying to get time synced with AP beacons of "JEFF-2.4-G" on _channel 1 ...
+[APtime] switching to _channel 2
+[APtime] SYNCED ! (246 ms)
+
+[APtime] Sampled: tLocal1 = 302404330 ms, tLocal2 = 345604577 ms, tAP1 = 414000333 ms, tAP2 = 457201050 ms
+[APtime] Computed linear slope: 0.9999891206
+---------------------
+
+[APtime] Starting sampling linear slope...
+
+[APtime] Trying to get time synced with AP beacons of "JEFF-2.4-G" on _channel 1 ...
+[APtime] SYNCED ! (79 ms)
+
+[APtime] Please wait for 43200000 ms...
+
+[APtime] Trying to get time synced with AP beacons of "JEFF-2.4-G" on _channel 1 ...
+[APtime] switching to _channel 2
+[APtime] SYNCED ! (251 ms)
+
+[APtime] Sampled: tLocal1 = 345604679 ms, tLocal2 = 388804930 ms, tAP1 = 457201152 ms, tAP2 = 500401869 ms
+[APtime] Computed linear slope: 0.9999892131
+---------------------
+
+[APtime] Starting sampling linear slope...
+
+[APtime] Trying to get time synced with AP beacons of "JEFF-2.4-G" on _channel 1 ...
+[APtime] switching to _channel 2
+[APtime] SYNCED ! (283 ms)
+
+[APtime] Please wait for 43200000 ms...
